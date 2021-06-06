@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% load filter %}
+{% block header %}
+<h1 class="text-center my-4">{{profile.username}}</h1>
+{% endblock %}
+
+
+{% block page_content %}
+
+<div class="d-flex flex-row justify-content-center mx-5">
+    <div class="row justify-content-center w-75">
+        <div class="d-flex flex-column align-items-start mr-5">
+            <img src="{{ profile.profile|get:'avatar'|get_f:'url' }}" class="shadow img-thumbnail mb-3 avatar-large">
+        </div>
+        <div>
+            <h1>Imię: {{ user.first_name|none_str }}</h1>
+            <h1>Nazwisko: {{ user.last_name|none_str }}</h1>
+            <h1>Email:</h1>
+            <h4> -- {{ user.email }}</h4>
+
+        </div>
+    </div>
+</div>
+
+<div class="row mx-5 mt-5 justify-content-between">
+    <h2 class="mb-0">Ulubione</h2>
+    <div class="d-flex align-items-end">
+        <a href="{% url 'view_profile' id %}?type=fav">Więcej<i class="bi bi-arrow-right"></i></a>
+    </div>
+</div>
+<hr class="mx-5">
+{% for movie in favourites %}
+{% include 'profile_card.html' %}
+{% endfor %}
+
+<div class="row mx-5 mt-5 justify-content-between">
+    <h2 class="mb-0">Chce obejrzeć</h2>
+    <div class="d-flex align-items-end">
+        <a href="{% url 'view_profile' id %}?type=want">Więcej<i class="bi bi-arrow-right"></i></a>
+    </div>
+</div>
+<hr class="mx-5">
+{% for movie in wanted %}
+{% include 'profile_card.html' %}
+{% endfor %}
+
+<div class="row mx-5 mt-5 justify-content-between">
+    <h2 class="mb-0">Opinie</h2>
+    <div class="d-flex align-items-end">
+        <a href="{% url 'view_profile' id %}?type=all">Więcej<i class="bi bi-arrow-right"></i></a>
+    </div>
+</div>
+<hr class="mx-5">
+{% for movie in opinions %}
+{% include 'profile_card.html' %}
+{% endfor %}
+{% endblock %}

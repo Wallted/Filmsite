@@ -1,0 +1,11 @@
+{% load filter %}
+
+<div class="d-flex flex-row justify-content-end">
+    <span class="material-icons display-3 my-1 mr-1">
+        star
+    </span>
+    <div>
+        <p class="card-text display-4 my-0">{{ rates|g:movie.id|g:'total' }}</p>
+        <p class="card-text text-muted">z {{ rates|g:movie.id|g:'count' }} ocen</p>
+    </div>
+</div>

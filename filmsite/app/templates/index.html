@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block top %}
+<div class="page-content shadow-lg p-3 mt-5 bg-white rounded">
+    <h1 class="display-4 text-center">
+        Witaj w Filmsite! Dla kochających kino!
+    </h1>
+</div>
+{% endblock %}
+
+{% block header %}
+    <h1 class="text-center">PREMIERY TEGO MIESIĄCA</h1>
+{% endblock %}
+
+{% block page_content %}
+<div class="card-deck d-flex justify-content-center">
+    {% for movie in movies %}
+    {% include 'movie_card.html' with movie=movie rates=rates only %}
+    {% endfor %}
+</div>
+{% endblock %}

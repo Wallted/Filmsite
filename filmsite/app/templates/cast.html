@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% load filter %}
+
+{% block header %}
+<div class="row justify-content-between mx-0">
+    <h1 class="my-0">
+        {{movie.title}}
+    </h1>
+    <div class="d-flex align-items-end">
+        <a href="{% url 'movie' pk=movie.id %}">
+            Powróć do filmu <i class="bi bi-arrow-return-left"></i>
+        </a>
+    </div>
+</div>
+{% endblock %}
+{% block page_content %}
+<div class="row mx-5">
+    {% for casted in cast %}
+    <div class="col-3 mb-5 ">
+        {% include 'actor_card.html' with casted=casted %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

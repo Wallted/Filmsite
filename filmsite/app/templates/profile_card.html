@@ -1,0 +1,28 @@
+{% load filter %}
+
+<div class="row mx-5 mt-4 justify-content-between shadow rounded px-5">
+    <div class=" col align-self-center pt-5">
+        {% include 'movie_card.html'%}
+    </div>
+    <div class="col align-self-center p-5">
+        <div class="col justify-content-center ">
+            <div class="row justify-content-center">
+                <div class="d-flex flex-column justify-content-center">
+                    <h1>
+                        {{movie.opinion|get_rate:id}}
+                    </h1>
+                </div>
+                <span class="material-icons display-4 my-1 mr-1">
+                    star
+                </span>
+            </div>
+            <hr>
+            <div class="text-center">
+                <small class="w-100"><i>Opinia</i></small>
+            </div>
+            <div class="shadow rounded p-2 mt-2">
+                {{movie.opinion|get_contents:id}}
+            </div>
+        </div>
+    </div>
+</div>

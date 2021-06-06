@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% load filter %}
+
+{% block header %}
+<div class="row justify-content-between mx-0">
+    <h1>
+        Forum dyskusyjne
+    </h1>
+    <div class="d-flex align-items-end">
+        <a href="{% url 'movie' pk=movie.id %}">
+            Powrót do filmu <i class="bi bi-arrow-return-left"></i>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_content %}
+
+<div class="mx-5 mb-3 text-right">
+    {% if user.is_authenticated %}
+    <a href="#" data-toggle="modal" data-target="#exampleModal">
+        Załóż nowy wątek <i class="bi bi-book"></i>
+    </a>
+    {% else %}
+    <div>
+        <a href="{% url 'login' %}?next={{request.path}}">Zaloguj się</a>, aby zakładać nowe wątki
+    </div>
+    {% endif %}
+</div>
+<div class="row mx-5 justify-content-end">
+    <div class="col-md-4 text-center">
+        <img src="{{ movie.poster.url }}" alt="" class="img-fluid shadow img-thumbnail">
+        <hr>
+    </div>
+    <!-- <div class="col-md-4 d-flex justify-content-center mt-5">
+        <div class="d-flex flex-column justify-content-between " style="max-height: 300px;">
+            <a class="btn btn-primary" href="#" role="button">NAJPOPULARNIEJSZE</a>
+            <a class="btn btn-primary" href="#" role="button">NAJNOWSZE</a>
+            <a class="btn btn-primary" href="#" role="button">NAJSTARSZE</a>
+            <a class="btn btn-primary" href="#" role="button">TWOJE WĄTKI</a>
+        </div>
+    </div> -->
+    <div class="col-md-8 d-flex justify-content-end">
+        <div class="w-100">
+            {% for thread in threads %}
+            {% include 'thread_card.html' %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="row mx-5 mt-5 mb-3 justify-content-center">
+    <ul class="pagination">
+        {% if page == 1 %}
+        <li class="page-item disabled">
+            {% else %}
+        <li class="page-item">
+            {% endif %}
+            <a class="page-link" href="{% url 'forum' pk 1 %}">Pierwsza</a>
+        </li>
+        {% if page == 1 %}
+        <li class="page-item disabled">
+            {% else %}
+        <li class="page-item">
+            {% endif %}
+            <a class="page-link" href="{% url 'forum' pk page|sub:1 %}">&laquo;</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="{% url 'forum' pk page %}">{{ page }}</a></li>
+        {% if page == len %}
+        <li class="page-item disabled">
+            {% else %}
+        <li class="page-item">
+            {% endif %}
+            <a class="page-link" href="{% url 'forum' pk page|sub:-1 %}">&raquo;</a>
+        </li>
+        {% if page == len %}
+        <li class="page-item disabled">
+            {% else %}
+        <li class="page-item">
+            {% endif %}
+            <a class="page-link" href="{% url 'forum' pk len %}">Ostatnia</a>
+        </li>
+    </ul>
+</div>
+
+<form method="POST" class="post-form" action="{% url 'add_thread' pk %}">
+    {% csrf_token %}
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nowy wątek</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <h5 class="modal-title">Tytuł</h5>
+                        <input type="text" class="form-control" name="title">
+                        <h5 class="modal-title">Treść</h>
+                            <textarea class="form-control shadow rounded" rows="3" name="contents"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+                    <button type="submit" class="btn btn-primary">Dodaj</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

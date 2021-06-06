@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% load filter %}
+<link rel="stylesheet" href="{% static 'js/app.js' %}">
+
+{% block header %}
+<div class=" align-self-center">
+    <h1 class="text-center">
+        {{ actor.name }}
+    </h1>
+</div>
+{% endblock %}
+
+{% block page_content %}
+<div class="row mx-5 justify-content-center">
+    <div class="d-flex flex-column">
+        <img src="{{ actor.portrait.url }}" alt="" class="img-fluid shadow img-thumbnail">
+        <small class="w-100 text-center mt-2">
+            Urodzony: {{actor.birth}}
+        </small>
+    </div>
+</div>
+<h1 class="mx-5">Bio</h1>
+<hr class="mx-5">
+<div class="d-flex flex-row justify-content-center">
+    <div class="p-5 m-5 shadow rounded w-50 h-50 text-center">
+        <p class="text-justify"><i>{{actor.bio}}</i></p>
+    </div>
+</div>
+<hr class="mx-5">
+
+<h2 class="pl-5">Zdjęcia</h2>
+<hr class="mx-5">
+<div class="d-flex justify-content-center">
+    <div class="w-75">
+        {% include 'carousel.html' %}
+    </div>
+</div>
+
+<h2 class="pl-5">Filmy w których występuje</h2>
+<hr class="mx-5">
+<div class="d-flex justify-content-center">
+    <div class="card-deck d-flex justify-content-center">
+        {% for movie in movies %}
+        {% include 'movie_card.html' with movie=movie rates=rates only %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

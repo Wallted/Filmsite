@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% load static %}
+{% load filter %}
+<link rel="stylesheet" href="{% static 'js/app.js' %}">
+
+{% block header %}
+<div class="row justify-content-between mx-0">
+    <div class="w-50 align-self-center">
+        <h1>
+            {{ movie.title }}
+        </h1>
+    </div>
+    <div class="mr-5">
+        {% include 'rate.html' %}
+    </div>
+</div>
+{% endblock %}
+
+{% block page_content %}
+<div class="d-flex align-items-center">
+    <div class="w-100">
+        <div class="row mx-5 shadow p-3 mb-5 bg-white rounded">
+            <div class="col-md-3 align-self-center text-center">
+                <img src="{{ movie.poster.url }}" alt="" class="img-fluid shadow img-thumbnail">
+            </div>
+            <div class="col-md-8 d-flex flex-column justify-content-between">
+                <div>
+                    <h5>Opis filmu</h5>
+                    <p class="text-justify">{{ movie.description }}</p>
+                </div>
+                <div class="d-flex flex-row justify-content-between">
+                    <div>
+                        <h5>Data premiery</h5>
+                        <p>{{ movie.launch }}</p>
+                    </div>
+                    <div>
+                        <h5>Długość</h5>
+                        <p>{{ movie.lenght }} minut</p>
+                    </div>
+                    <div>
+                        <h5>Gatunek</h5>
+                        <p>{{ movie.genre }}</p>
+                    </div>
+                    <div>
+                        <h5>Reżyser</h5>
+                        <p>{{ movie.director }}</p>
+                    </div>
+                </div>
+                <div class="d-flex flex-row justify-content-between">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row mx-5 shadow p-3 mb-5 bg-white rounded justify-content-end">
+            {% if user.is_authenticated %}
+            <div class="col-md-6 ">
+                <h5>Ulubiony film</h5>
+                <hr>
+                <div>
+                    <div>
+                        {% if opinion.is_favourite %}
+                        Zapisano w ulubionych.
+                        <a href="{% url 'favourite_movie' pk=movie.id %}?favourite=False">Usuń z ulubionych</a>
+                        {% else %}
+                        <a href="{% url 'favourite_movie' pk=movie.id %}?favourite=True">Dodaj do ulubionych</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <h5 class="mt-5">Chcę obejrzeć </h5>
+                <hr>
+                <div>
+                    <div>
+                        {% if opinion.want_to_watch %}
+                        Chcesz obejrzeć ten film.
+                        <a href="{% url 'favourite_movie' pk=movie.id %}?want_to_watch=False">Nie chcę obejrzeć</a>
+                        {% else %}
+                        <a href="{% url 'favourite_movie' pk=movie.id %}?want_to_watch=True">Chcę obejrzeć</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 ">
+                <form method="POST" class="post-form" action="" id="form_id">
+                    {% csrf_token %}
+                    <h5>Twoja ocena</h5>
+                    <hr>
+                    <div class="form-group text-right shadow rounded p-4">
+                        {{ form.rate }}
+                        <h4 id="opinionTitle">
+                        </h4>
+                    </div>
+                    <h5>Twoja opinia</h5>
+                    <hr>
+                    <div class="form-group">
+                        <textarea class="form-control shadow rounded" id="opss" rows="3"
+                            name="contents">{{ opinion.contents|noneStr }}</textarea>
+                    </div>
+                    <div class="row justify-content-end">
+                        <div class="col-md-6 align-self-center text-right">
+                            {% if saved %}
+                            <div class="text-success">
+                                Zapisano <i class="bi bi-check"></i>
+                            </div>
+                            {% else %}
+                            <a href="javascript:$('#form_id').submit();">Zapisz opinię</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            {% else %}
+            <div>
+                <a href="{% url 'login' %}?next={{request.path}}">Zaloguj się</a>, aby wyrazić swoją opinię
+            </div>
+            {% endif %}
+        </div>
+        <div class="row mx-5 justify-content-between">
+            <h2 class="mb-0">Obsada</h2>
+            <div class="d-flex align-items-end">
+                <a href="{% url 'cast' movie.id %}">Pełna obsada <i class="bi bi-arrow-right"></i></a>
+            </div>
+        </div>
+        <hr class="mx-5 mt-2">
+        <div class="d-flex justify-content-center mb-5">
+            <div class="w-75 mx-5">
+                <div class="row justify-content-around">
+                    {% for casted in cast %}
+                    <div class="col-3">
+                        {% include 'actor_card.html' with casted=casted %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end mx-5">
+        </div>
+        <h2 class="pl-5">Zdjęcia</h2>
+        <hr class="mx-5">
+        <div class="d-flex justify-content-center">
+            <div class="w-75">
+                {% include 'carousel.html' %}
+            </div>
+        </div>
+
+        <div class="row mx-5 justify-content-between">
+            <h2 class="mb-0">Forum</h2>
+            <div class="d-flex align-items-end">
+                <a href="forum">Przejdź do
+                    forum <i class="bi bi-arrow-right"></i></a>
+            </div>
+        </div>
+        <hr class="mx-5 mt-2">
+        <div class="d-flex justify-content-center mx-5">
+            <div class="card-deck w-100">
+                {% for thread in threads %}
+                {% include 'thread_card.html' %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

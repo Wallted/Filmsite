@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load filter %}
+
+{% block header %}
+<h1 class="text-left">Wynik szukania: <i>"{{query}}"</i></h1>
+{% endblock %}
+
+{% block page_content %}
+<div class="card-deck d-flex justify-content-center">
+    {% if movies|len > 0 %}
+        {% for movie in movies %}
+        {% include 'movie_card.html' with movie=movie rates=rates only %}
+        {% endfor %}
+    {% else %}
+        <h1 class="display-1"> BRAK :(</h1>
+    {% endif %}
+</div>
+{% endblock %}

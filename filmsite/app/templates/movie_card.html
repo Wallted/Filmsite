@@ -1,0 +1,23 @@
+
+<div class="card mb-3 w-75 shadow-lg p-3 mb-5 bg-white rounded" style="max-width: 600px; min-width: 600px;">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="{{ movie.poster.url }}" class="img-thumbnail">
+        </div>
+        <div class="col-md-8 d-flex flex-column justify-content-between">
+            <div class="card-body px-5">
+                <a href="{% url 'movie' movie.pk %}">
+                <h5 class="card-title">{{ movie.title }}</h5>
+                </a>
+                <p class="card-text">{{ movie.launch }}</p>
+                <div class="card-text mr-5">
+                    {% include 'rate.html' %}
+                </div>
+            </div>
+            <div class="d-flex flex-row justify-content-between px-5">
+                <p class="card-text"><small class="text-muted">Gatunek: {{movie.genre}}</small></p>
+                <p class="card-text"><small class="text-muted">Reżyseria: {{movie.director}}</small></p>
+            </div>
+        </div>
+    </div>
+</div>

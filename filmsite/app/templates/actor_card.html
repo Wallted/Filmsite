@@ -1,0 +1,9 @@
+<div class="card shadow rounded h-100" >
+    <img src="{{casted.actor.portrait.url}}"
+        class="card-img-top img-thumbnail img-fluid">
+    <div class="card-body">
+        <h5 class="card-title"><a href="{% url 'view_actor' casted.actor.id %}">{{casted.actor.name}}</a></h5>
+        <p class="card-text">{{casted.character}}</p>
+        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+    </div>
+</div>

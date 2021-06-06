@@ -1,0 +1,37 @@
+{% load static %}
+{% load filter %}
+
+
+<div class="card mb-3 shadow rounded">
+  <div class="row px-4 justify-content-between">
+    <div class="row ml-1 align-items-center p-2">
+      <img src="{{ thread.user.profile|get:'avatar'|get_f:'url' }}" class="avatar shadow">
+      <h5 class=" mt-3 ml-3">
+        Autor: <a href="{% url 'view_profile' thread.user.id %}"> {{ thread.user.username }}</a>
+      </h5>
+    </div>
+    <div class="row mr-2">
+      <div class="d-flex align-self-center">
+        <h1 class="text-muted">
+          {{ thread.movie.opinion|get_rate:thread.user.id }}
+        </h1>
+      </div>
+      <span class="material-icons display-4 my-1 mr-1">
+        star
+      </span>
+    </div>
+  </div>
+  <hr class="mx-2 mt-0">
+  <div class="row no-gutters">
+    <div class="col-md-12 ml-1">
+      <div class="card-body pt-0">
+        <h5 class="card-title">{{ thread.title }}</h5>
+        <p class="card-text">{{ thread.contents }}</p>
+        <div class="row justify-content-between mx-2">
+          <p class="card-text d-flex align-self-center"><small class="text-muted">{{ thread.date }}</small></p>
+          <p class="card-text text-right"><a href="{% url 'view_thread' id=thread.id %}">Dyskusja</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load filter %}
+{% block header %}
+<div class="row justify-content-between mx-0">
+    <h1>
+        {{title}}
+    </h1>
+    <div class="d-flex align-items-end">
+        <a href="{% url 'view_profile' id %}">
+            Powrót <i class="bi bi-arrow-return-left"></i>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_content %}
+    {% for movie in movies %}
+        {% include 'profile_card.html' %}
+    {% endfor %}
+{% endblock %}
