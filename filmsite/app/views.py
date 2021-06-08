@@ -208,7 +208,6 @@ def add_post(request, id):
 def view_profile(request, id):
 
     user = User.objects.all().get(id=id)
-    user.profile.set(UserProfile.objects.filter(user__id=id))
 
     rates = get_movies_ratings(Movie.objects.filter(opinion__user__id=user.id))
 
@@ -245,7 +244,7 @@ def view_profile(request, id):
         'favourites': favourites[:2],
         'wanted': wanted[:2],
         'opinions': opinions[:2],
-        'profile': user,
+        'profile': UserProfile.objects.get(user__id=id),
         'rates': rates,
         'id': id
     }
